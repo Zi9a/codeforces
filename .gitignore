@@ -2,3 +2,4 @@
 .clangd
 run
 input
+*.out

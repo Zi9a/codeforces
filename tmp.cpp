@@ -1,76 +1,82 @@
-	new file:   .gitignore
-	new file:   README.md
-	new file:   a_plus_b_again.cpp
-	new file:   again_twenty_five.cpp
-	new file:   amusing_joke.cpp
-	new file:   another_sorting_problem.cpp
-	new file:   anton_and_danik.cpp
-	new file:   anton_and_letters.cpp
-	new file:   anton_and_polyhedrons.cpp
-	new file:   arrival_of_the_general.cpp
-	new file:   bear_and_big_brother.cpp
-	new file:   beautiful_matrix.cpp
-	new file:   beautiful_year.cpp
-	new file:   bit_plus_plus.cpp
-	new file:   boy_or_girl.cpp
-	new file:   buy_a_shovel.cpp
-	new file:   calculating_function.cpp
-	new file:   candies_and_two_sisters.cpp
-	new file:   capitalization.cpp
-	new file:   constest/construct_an_array.cpp
-	new file:   constest/run
-	new file:   course_wishes.cpp
-	new file:   divisibility_problem.cpp
-	new file:   division.cpp
-	new file:   domino_piling.cpp
-	new file:   drinks.cpp
-	new file:   elephant.cpp
-	new file:   fox_and_snake.cpp
-	new file:   game_with_integers.cpp
-	new file:   games.cpp
-	new file:   george_and_accomodation.cpp
-	new file:   halloumi_boxes.cpp
-	new file:   helpful_maths.cpp
-	new file:   hit_the_lottery.cpp
-	new file:   hulk.cpp
-	new file:   i_love_username.cpp
-	new file:   i_wanna_be_the_guy.cpp
-	new file:   in_search_of_an_easy_problem.cpp
-	new file:   input
-	new file:   insomnia_cure.cpp
-	new file:   is_your_horseshoe_on_the_other_hoof.cpp
-	new file:   lucky.cpp
-	new file:   magnets.cpp
-	new file:   make_a_equal_to_b.cpp
-	new file:   marathon.cpp
-	new file:   nearly_lucky_number.cpp
-	new file:   new_year_and_party.cpp
-	new file:   next_round.cpp
-	new file:   pangram.cpp
-	new file:   petya_and_strings.cpp
-	new file:   plus_or_minus.cpp
-	new file:   police_recruits.cpp
-	new file:   presents.cpp
-	new file:   queue_at_the_school.cpp
-	new file:   restoring_three_numbers.cpp
-	new file:   sereja_and_dima.cpp
-	new file:   soft_drinks.cpp
-	new file:   soldier_and_bananas.cpp
-	new file:   stones_on_the_table.cpp
-	new file:   sum.cpp
-	new file:   sum_of_round_numbers.cpp
-	new file:   team.cpp
-	new file:   the_new_year_meeting_friends.cpp
-	new file:   tmp.cpp
-	new file:   todo/balls.cpp
-	new file:   todo/run
-	new file:   tram.cpp
-	new file:   translation.cpp
-	new file:   ultra_fast_mathematician.cpp
-	new file:   vanya_and_fence.cpp
-	new file:   vasya_and_hipster.cpp
-	new file:   watermelon.cpp
-	new file:   way_too_long_words.cpp
-	new file:   word.cpp
-	new file:   wrong_subtraction.cpp
-	new file:   yes_or_yes.cpp
+#include <algorithm>
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+
+// a = 1 2 3
+// b = 1 2 4 2 4
+
+void solve() {
+  int n, k;
+  std::cin >> n >> k;
+
+  std::vector<int> a(k);
+  std::vector<int> b(n);
+
+  for(auto& i : a) { std::cin >> i; }
+  for(auto& i : b) { std::cin >> i; }
+
+  int ans{};
+  std::vector<int> ans_steps{};
+
+  while (true) {
+    for (int i{}; i < n; ++i) {
+      if (b[i] == k + 1) { continue; }
+      if (b[i] == k) {
+        b[i]++;
+        ans++;
+        ans_steps.push_back(i + 1);
+        continue;
+      }
+
+      if (b[i] == k - 1) {
+        b[i]++;
+        ans++;
+        ans_steps.push_back(i + 1);
+        continue;
+      }
+
+
+      auto count = std::count(b.begin(), b.end(), b[i]);
+      if (count < a[b[i] - 1]) {
+        b[i]++;
+        ans++;
+        ans_steps.push_back(i + 1);
+      }
+    }
+
+    if (ans > 1000) {
+      ans = -1;
+      break;
+    }
+
+    auto all_same = std::all_of(b.begin(), b.end(), [&](int a) {
+      return a == k + 1;
+    });
+    if (all_same) {
+      break;
+    }
+  }
+
+  if (ans == -1) {
+    std::cout << ans << '\n';
+    return;
+  }
+
+  std::cout << ans << '\n';
+  for(auto i : ans_steps) {
+    std::cout << i << ' ';
+  }
+  std::cout << '\n';
+}
+
+int main() {
+
+  int t;
+  std::cin >> t;
+  while (t--) {
+    solve();
+  }
+
+  return 0;
+}
